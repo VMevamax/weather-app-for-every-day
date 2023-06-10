@@ -26,6 +26,33 @@ let dateElement = document.querySelector("#date");
 let currentTime = new Date();
 dateElement.innerHTML = formatDate(currentTime);
 
+// weather for evety day
+function displayForecast() {
+  let forcastElement = document.querySelector("#forecast");
+  let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+  let forecastHTML = `<div class="row">`;
+  days.forEach(function (day) {
+    forecastHTML =
+      forecastHTML +
+      `<div class="col-2">
+                  <div class="days-weather">${day}</div>
+                  <img
+                src="https://ssl.gstatic.com/onebox/weather/64/sunny.png"
+                alt="clear"
+                id="icon"
+              />
+              <div class="weather-temp">
+                <span class="max-temp">25°</span>
+                 <span class="min-temp">18°</span>
+              </div>
+                </div>`;
+  });
+
+  forecastHTML = forecastHTML + `</div>`;
+  forcastElement.innerHTML = forecastHTML;
+  //console.log(forecastHTML);
+}
+
 // tem\\\
 
 function displayWeatherCondition(response) {
@@ -107,3 +134,4 @@ searchForm.addEventListener("submit", handleSubmit);
 let currentLocationButton = document.querySelector("#current-location-button");
 currentLocationButton.addEventListener("click", getCurrentLocation);
 /////
+displayForecast();
