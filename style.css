@@ -74,8 +74,9 @@ h1:hover {
 }
 .weather-forecast-date {
   position: relative;
-  top: -105px;
+  top: -210px;
   right: -165px;
+  font-size: 25px;
 }
 .units {
   font-size: 35px;
