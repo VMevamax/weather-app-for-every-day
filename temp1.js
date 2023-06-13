@@ -27,6 +27,7 @@ let currentTime = new Date();
 dateElement.innerHTML = formatDate(currentTime);
 
 // weather for every day
+
 function formatDay(timestamp) {
   let date = new Date(timestamp * 1000);
   let day = date.getDay();
@@ -37,46 +38,46 @@ function formatDay(timestamp) {
 
 function displayForecast(response) {
   let forecast = response.data.daily;
-  let forcastElement = document.querySelector("#forecast");
+  let forecastElement = document.querySelector("#forecast");
 
   let forecastHTML = `<div class="row">`;
-  forecast.forEach(function (forecastDay, index) {
-    if (index < 5) {
+
+  (forecast || []).forEach(function (forecastDay, index) {
+    if (index < 6) {
       forecastHTML =
         forecastHTML +
-        `<div class="col-2">
-                  <div class="days-weather">${formatDay(forecastDay.dt)}</div>
-                  <img
-                src="http://openweathermap.org/img/wn/${
-                  forecastDay.weather[0].icon
-                }@2x.png"
-                alt="clear"
-                id="icon"
-                   width="80"
-              />
-              <div class="weather-temp">
-                <span class="max-temp"> ${Math.round(
-                  forecastDay.temp.max
-                )}°</span>
-                 <span class="min-temp"> ${Math.round(
-                   forecastDay.temp.min
-                 )}°</span>
-              </div>
-                </div>`;
+        `
+      <div class="col-2">
+        <div class="weather-forecast-date">${formatDay(forecastDay.dt)}</div>
+          <img
+            src="http://openweathermap.org/img/wn/${
+              forecastDay.weather[0].icon
+            }@2x.png"
+            alt=""
+            width="42"
+            />
+            <div class="weather-forecast-temperatures">
+            <span class="weather-forecast-temperature-max"> ${Math.round(
+              forecastDay.temp.max
+            )}° </span>
+            <span class="weather-forecast-temperature-min"> ${Math.round(
+              forecastDay.temp.min
+            )}° </span>
+          </div>
+        </div>
+        `;
     }
   });
 
   forecastHTML = forecastHTML + `</div>`;
-  forcastElement.innerHTML = forecastHTML;
-  //console.log(forecastHTML);
+  forecastElement.innerHTML = forecastHTML;
 }
-
 function getForecast(coordinates) {
-  console.log(coordinates);
-  let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
+  let apiKey = "cabdbda40038ba7d1165b953b1c7bd6c";
   let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
   axios.get(apiUrl).then(displayForecast);
 }
+
 // tem\\\
 
 function displayWeatherCondition(response) {
@@ -103,20 +104,8 @@ function displayWeatherCondition(response) {
   getForecast(response.data.coord);
 }
 
-function searchCity(city) {
-  let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-  axios.get(apiUrl).then(displayWeatherCondition);
-}
-
-function handleSubmit(event) {
-  event.preventDefault();
-  let city = document.querySelector("#city-input").value;
-  searchCity(city);
-}
-searchCity("kyiv");
 function searchLocation(position) {
-  let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
+  let apiKey = "46fac47dd8b8fa26d1b6852218ad3dfe";
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=${apiKey}&units=metric`;
 
   axios.get(apiUrl).then(displayWeatherCondition);
@@ -152,6 +141,18 @@ function convertToCelsius(event) {
 
 let celsius = document.querySelector("#celcius-link");
 celsius.addEventListener("click", convertToCelsius);
+
+function search(city) {
+  let apiKey = "46fac47dd8b8fa26d1b6852218ad3dfe";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(displayForecast);
+}
+
+function handleSubmit(event) {
+  event.preventDefault();
+  let city = document.querySelector("#city-input").value;
+  search(city);
+}
 
 let searchForm = document.querySelector("#search-form");
 searchForm.addEventListener("submit", handleSubmit);
