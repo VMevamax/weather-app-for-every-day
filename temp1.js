@@ -143,19 +143,21 @@ let celsius = document.querySelector("#celcius-link");
 celsius.addEventListener("click", convertToCelsius);
 
 function search(city) {
-  let apiKey = "46fac47dd8b8fa26d1b6852218ad3dfe";
+  let apiKey = "0694dc9ddf30c85dedc282e5ce86e825";
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-  axios.get(apiUrl).then(displayForecast);
+  axios.get(apiUrl).then(displayTemperature);
 }
 
 function handleSubmit(event) {
   event.preventDefault();
-  let city = document.querySelector("#city-input").value;
-  search(city);
+  let cityInputElement = document.querySelector("#city-input");
+  search(cityInputElement.value);
 }
 
-let searchForm = document.querySelector("#search-form");
-searchForm.addEventListener("submit", handleSubmit);
+let form = document.querySelector("#search-form");
+form.addEventListener("submit", handleSubmit);
+
+search("Kyiv");
 
 let currentLocationButton = document.querySelector("#current-location-button");
 currentLocationButton.addEventListener("click", getCurrentLocation);
